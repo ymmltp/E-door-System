@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="e_doorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="demand_list">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="from" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="open_time" Type="DateTime" />
+    <Property Name="tab" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="content" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="status" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="to" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="cc" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="session_time" Type="DateTime" />
+    <Property Name="session_location" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="close_time" Type="DateTime" />
+    <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="attatchment" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department1" />
+    </Key>
+    <Property Name="department1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="first_type">
+    <Key>
+      <PropertyRef Name="tab_type" />
+    </Key>
+    <Property Name="tab_type" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="location">
+    <Key>
+      <PropertyRef Name="location1" />
+    </Key>
+    <Property Name="location1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="project">
+    <Key>
+      <PropertyRef Name="project1" />
+    </Key>
+    <Property Name="project1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tab_second_type">
+    <Key>
+      <PropertyRef Name="second_type" />
+    </Key>
+    <Property Name="first_type" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="second_type" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tier">
+    <Key>
+      <PropertyRef Name="tier_level" />
+    </Key>
+    <Property Name="tier_level" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="diaplayname" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="ntid" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="employeeNum" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="tier" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="department" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="project" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="eMail" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="power" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="e_doorEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="demand_list" EntityType="Self.demand_list" />
+    <EntitySet Name="departments" EntityType="Self.department" />
+    <EntitySet Name="first_type" EntityType="Self.first_type" />
+    <EntitySet Name="locations" EntityType="Self.location" />
+    <EntitySet Name="projects" EntityType="Self.project" />
+    <EntitySet Name="tab_second_type" EntityType="Self.tab_second_type" />
+    <EntitySet Name="tiers" EntityType="Self.tier" />
+    <EntitySet Name="users" EntityType="Self.user" />
+  </EntityContainer>
+</Schema>

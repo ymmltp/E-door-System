@@ -1,0 +1,159 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Tab";
+}
+
+<div class="panel-default large-top-margin">
+    <div class="panel-heading">
+        @ViewData["Title"]
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="tab1sele" class="form-label text-right">First Type:</label>
+                <select id="tab1sele" class="form-control"></select>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="select2">
+                @*<label for="tab2sele" class="form-label text-right">Second Type:</label>
+                    <select id="tab2sele" class="form-control"> </select>*@
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-success mybtn" onclick="add_first_tab()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table id="table" class="table table-hover"></table>
+
+
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script src="~/Scripts/jquery.editable-select.min.js"></script>
+<script src="~/Scripts/Customer/BasicFnc.js"></script>
+<script src="~/Scripts/Customer/select.js"></script>
+<script src="~/Scripts/Customer/add.js"></script>
+<script>
+    $(document).ready(function () {
+        select_first_tab();
+        select_second_tab();
+    });
+
+    function DeleteButton(value, row, index) {
+        return [
+            '<button class="btn btn-danger square-btn" type="button" id="deleteBtn"><i class="fa fa-times"></i></button>'
+        ]
+    }
+
+    function DeleteButtonChild(value, row, index) {
+        return [
+            '<button class="btn btn-danger square-btn" type="button" id="deleteBtnChild"><i class="fa fa-times"></i></button>'
+        ]
+    }
+
+    window.operateEvents = {
+        "click #deleteBtn": function (e, value, row, index) {
+            var flag = confirm("确定删除这个Tab:" + row.tab_type + "以及他下面的所有子标签吗？");
+            if (flag) {
+                var url = "/Tab/First_Tab_Delete";
+                var data = { tab: row.tab_type };
+
+                deleteData(url, data)
+                    .then(res => {
+                        console.log(res.xhr.status + ":" + res.xhr.statusText);
+                        return deleteData("/Tab/Second_Tab_Delete_byRange", { parenttab: row.tab_type } )
+                    })
+                    .then(res => {
+                        console.log(res.xhr.status + ":" + res.xhr.statusText);
+                        tab_table();
+                    })
+                    .catch(err => {
+                        console.log(err.xhr.status + ":" + err.xhr.statusText);
+                    })
+            }
+        },
+
+        "click #deleteBtnChild": function (e, value, row, index) {
+            var flag = confirm("确定删除这个Tab:" + row.second_type +"吗？");
+            if (flag) {
+                var url = "/Tab/Second_Tab_Delete";
+                var data = {
+                    first_type: row.first_type,
+                    second_type: row.second_type,
+                };
+                deleteData(url, data)
+                    .then(res => {
+                        console.log(res.xhr.status + ":" + res.xhr.statusText);
+                        tab_table();
+                    })
+                    .catch(err => {
+                        console.log(err.xhr.status + ":" + err.xhr.statusText);
+                    })
+            }
+        }
+    }
+
+    $("#table").bootstrapTable({
+        detailView: true,
+        cache: false,
+        url: '/Tab/First_Tab_Query?ran=' + Math.random(),
+        pageSize: 10,
+        pageList: [10, 25],
+        method: 'GET',
+        dataType: 'json',
+        columns: [{
+            field: 'index',
+            title: 'Index',
+            formatter: function (value, row, index) {
+                return index + 1;
+            }
+        }, {
+            field: 'tab_type',
+            title: 'Tab Name'
+        }, {
+            field: 'description',
+            title: 'Description'
+        }, {
+            field: 'option',
+            title: 'Operation',
+            events: operateEvents,
+            formatter: DeleteButton
+        }],
+        //注册加载子表的事件。注意下这里的三个参数！
+        onExpandRow: function (index, row, $detail) {
+            InitSubTable(index, row, $detail);
+        }
+    });
+
+    //初始化子表格(无线循环)
+    function InitSubTable(index, row, $detail) {
+        var tablist = {
+            first_type: row.tab_type,
+        }
+        var cur_table = $detail.html('<table class="tablewhite"></table>').find('table');
+        $(cur_table).bootstrapTable({
+            url: '/Tab/Second_Tab_Query_byRange',
+            queryParams: tablist,
+            columns: [{
+                field: 'index',
+                title: 'Index',
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            }, {
+                field: 'second_type',
+                title: 'Tab Name',
+            }, {
+                field: 'description',
+                title: 'Description'
+            }, {
+                field: 'option',
+                title: 'Operation',
+                events: operateEvents,
+                formatter: DeleteButtonChild
+            }],
+        });
+    };
+
+</script>

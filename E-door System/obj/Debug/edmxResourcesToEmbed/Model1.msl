@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="e_doorModelStoreContainer" CdmEntityContainer="e_doorEntities">
+    <EntitySetMapping Name="demand_list">
+      <EntityTypeMapping TypeName="e_doorModel.demand_list">
+        <MappingFragment StoreEntitySet="demand_list">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="from" ColumnName="from" />
+          <ScalarProperty Name="open_time" ColumnName="open_time" />
+          <ScalarProperty Name="tab" ColumnName="tab" />
+          <ScalarProperty Name="content" ColumnName="content" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="to" ColumnName="to" />
+          <ScalarProperty Name="cc" ColumnName="cc" />
+          <ScalarProperty Name="session_time" ColumnName="session_time" />
+          <ScalarProperty Name="session_location" ColumnName="session_location" />
+          <ScalarProperty Name="close_time" ColumnName="close_time" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="attatchment" ColumnName="attatchment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="departments">
+      <EntityTypeMapping TypeName="e_doorModel.department">
+        <MappingFragment StoreEntitySet="department">
+          <ScalarProperty Name="department1" ColumnName="department" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="first_type">
+      <EntityTypeMapping TypeName="e_doorModel.first_type">
+        <MappingFragment StoreEntitySet="first_type">
+          <ScalarProperty Name="tab_type" ColumnName="tab_type" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="locations">
+      <EntityTypeMapping TypeName="e_doorModel.location">
+        <MappingFragment StoreEntitySet="location">
+          <ScalarProperty Name="location1" ColumnName="location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="projects">
+      <EntityTypeMapping TypeName="e_doorModel.project">
+        <MappingFragment StoreEntitySet="project">
+          <ScalarProperty Name="project1" ColumnName="project" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tab_second_type">
+      <EntityTypeMapping TypeName="e_doorModel.tab_second_type">
+        <MappingFragment StoreEntitySet="tab_second_type">
+          <ScalarProperty Name="first_type" ColumnName="first_type" />
+          <ScalarProperty Name="second_type" ColumnName="second_type" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tiers">
+      <EntityTypeMapping TypeName="e_doorModel.tier">
+        <MappingFragment StoreEntitySet="tier">
+          <ScalarProperty Name="tier_level" ColumnName="tier_level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="e_doorModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="diaplayname" ColumnName="diaplayname" />
+          <ScalarProperty Name="ntid" ColumnName="ntid" />
+          <ScalarProperty Name="employeeNum" ColumnName="employeeNum" />
+          <ScalarProperty Name="tier" ColumnName="tier" />
+          <ScalarProperty Name="department" ColumnName="department" />
+          <ScalarProperty Name="project" ColumnName="project" />
+          <ScalarProperty Name="eMail" ColumnName="eMail" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="power" ColumnName="power" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

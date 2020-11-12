@@ -1,0 +1,223 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Apply Demand";
+}
+@*<div class="sheet">
+        <div class="sheet-right-body">
+            <div class="right-main" id="demand-list">
+               <ul>
+                   <li class="sheet-card card-open" data-id="2">
+                    <label class="item-title">Topic:
+                        <span class="item-text-blue">Career</span>
+                    </label>
+                    <label class="item-title">Session Time:<br/>
+                        <span class="item-text-blue">2020-10-28 12:30:00</span>
+                    </label>
+                    <label class="item-title">Location:<br />
+                        <span class="item-text-blue">New Session Room</span>
+                    </label>
+                </li>
+                <li class="sheet-card card-ongoing">
+                    <label>Tab:</label>
+                    <label>Session Time:</label>
+                    <label>Location:</label>
+                </li>
+            </ul>
+    </div>
+        </div>
+        <div class="sheet-left-body">
+            <h3><b>Calendar</b></h3>
+        </div>
+
+
+        <form class="sheet-body" id="sheet" method="post">
+            <h3><b>@ViewBag.Title</b></h3>
+            <div class="sheet-main">
+                <div class="sheet-item ">
+                    <label class="item-title" for="from">From:</label>
+                    <select id="from" name="from" class="form-control selectpicker " data-size="6" data-live-search="true"></select>
+                </div>
+                <div class="sheet-item ">
+                    <label class="item-title" for="tab1sele">Topic:</label>
+                    <select id="tab1sele" name="tab1sele" class="form-control selectpicker tb1" data-size="6" multiple data-max-options="1" onchange="select_tb2()"></select>
+                    <label class="item-title" for="tab2sele">Tab:</label>
+                    <select id="tab2sele" name="tab2sele" class="form-control selectpicker tb2" data-size="6" multiple data-max-options="1"></select>
+                </div>
+                <div class="sheet-item ">
+                    <label class="item-title" for="content">Content:</label>
+                    <textarea cols="100" name="content" rows="3" id="content" class="form-control width-mathc" placeholder="请输入..."></textarea>
+                </div>
+                <div class="sheet-item ">
+                    <label class="item-title" for="to">TO:</label>
+                    <select id="to" name="to" class="form-control selectpicker e-mail-select" data-size="6" data-live-search="true"></select>
+                </div>
+                <div class="sheet-item ">
+                    <label class="item-title" for="cc">CC:</label>
+                    <select id="cc" name="cc" class="form-control selectpicker e-mail-select" data-size="6" multiple data-live-search="true"></select>
+                </div>
+                <div class="sheet-item ">
+                    <label class="item-title-inline" for="isSendMail">SendMail: </label>
+                    <input type="checkbox" id="isSendMail" checked="checked" />
+                </div>
+            </div>
+            <button class="btn btn-success" type="button" style="margin-top:20px" onclick="submitDemand()">Submit</button>
+        </form>
+
+
+    </div>*@
+
+<div class="modal fade" id="DemandModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>@ViewBag.Title</b></h5>
+            </div>
+            <div class="modal-body">
+                <form id="sheet" method="post" style="text-align:center">
+                    <div class="sheet-main">
+                        <div class="sheet-item ">
+                            <label class="item-title" for="from">From(发送人):</label>
+                            <select id="from" name="from" class="form-control selectpicker " data-size="6" data-live-search="true"></select>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title" for="tab1sele">Topic(话题):</label>
+                            <select id="tab1sele" name="tab1sele" class="form-control selectpicker tb1" data-size="6" multiple data-live-search="true"  data-max-options="1" onchange="select_tb2()"></select>
+                            <label class="item-title" for="tab2sele">Tab(话题分支):</label>
+                            <select id="tab2sele" name="tab2sele" class="form-control selectpicker tb2" data-size="6" multiple data-max-options="1"></select>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title" for="content">Content(内容):</label>
+                            <textarea cols="100" name="content" rows="3" id="content" class="form-control width-mathc" placeholder="请输入..."></textarea>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title" for="to">TO(收件人):</label>
+                            <select id="to" name="to" class="form-control selectpicker e-mail-select" data-size="6" data-live-search="true"  data-max-options="1" ></select>
+                        </div>
+                        @*<div class="sheet-item ">
+                            <label class="item-title" for="cc">CC:</label>
+                            <select id="cc" name="cc" class="form-control selectpicker e-mail-select" data-size="6" multiple data-live-search="true"></select>
+                        </div>*@
+                        <div class="sheet-item ">
+                            <label class="item-title-inline" for="isSendMail">SendMail: </label>
+                            <input type="checkbox" id="isSendMail" checked="checked" />
+                        </div>
+                    </div>
+                    <button class="btn btn-success" type="button" style="margin-top:20px" onclick="submitDemand()">Submit(提交)</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="margin-top:20px;"></div>
+<div id="toolbar" onclick="showModel()"><button class="btn btn-success">Add(新增)</button></div>
+<table id="table" class="table table-hover table-striped"></table>
+
+
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script src="~/Scripts/Customer/BasicFnc.js"></script>
+<script src="~/Scripts/Customer/cookie.js"></script>
+<script src="~/Scripts/Customer/demand.js"></script>
+
+<script>
+    $(document).ready(function () {
+        select_mailandUserName();
+        select_tb1();
+        select_tb2();
+        //init_demand_list();
+    });
+
+    function Operate(value, row, index) {
+        return ['<a href="#" id="delete">Delete</a>']
+    }
+
+    window.operateEvents = {
+        "click #delete": function (e, value, row, index) {
+            if (confirm('确定删除 "' + row.content + '"')) {
+                $.ajax({
+                    url: '/Demand/DeletebyID',
+                    data: {
+                        id: row.id
+                    },
+                    type: 'GET',
+                    success: function (data, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                        $("#table").bootstrapTable('refresh');
+                    },
+                    fail: function (err, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                })
+            }
+        }
+    }
+
+    $("#table").bootstrapTable({
+        toolbar: '#toolbar',
+        cache: false,
+        search: false,
+        type: 'GET',
+        url: '/Demand/QueryEnableDemand',
+        queryParams: {
+            from: getCookie("edoor-EmployeeID"),
+        },
+        dataType: 'json',
+        pagination: true,  //设置为 true 会在表格底部显示分页条。
+        paginationLoop: false, //设置为 true 启用分页条无限循环的功能。
+        pageSize: 20,//每页初始显示的条数
+        pageList: [10, 15, 20],
+        showColumns: false,
+        columns: [{
+            fiele: 'id',
+            title: 'ID',
+            visible: false
+        }, {
+            field: 'mailFrom',
+            title: 'From'
+        }, {
+            field: 'open_time',
+            title: 'Open Time',
+            formatter: function (value, row, index) {
+                return changeDateFormat(value);
+            }
+        }, {
+            field: 'tab',
+            title: 'Tab'
+        }, {
+            field: 'content',
+            title: 'Content'
+        }, {
+            field: 'mailTo',
+            title: 'TO'
+        }, {
+            field: 'session_time',
+            title: 'Session Time',
+            formatter: function (value, row, index) {
+                return changeDateFormat(value);
+            }
+        }, {
+            field: 'session_location',
+            title: 'Session Location'
+        }, {
+
+            field: 'Operate',
+            title: 'Operate',
+            events: operateEvents,
+            formatter: Operate
+        }]
+    });
+
+    function changeDateFormat(cellval) {
+        if (cellval != null) {
+            var d = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            return formatDate(d);
+        } else {
+            return cellval;
+        }
+    }
+
+</script>
+
+

@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Search Demand";
+}
+
+<div class="panel-default large-top-margin">
+    <div class="panel-heading">
+        @ViewData["Title"]
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="from" class="form-label text-right">From:</label>
+                <select id="from" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Name---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="to" class="form-label text-right">To:</label>
+                <select id="to" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Name---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="tab1sele" class="form-label text-right">Topic:</label>
+                <select id="tab1sele" class="form-control selectpicker" data-size="6" multiple data-max-options="1" onchange="select_tb2()" title="---Select Topic---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="tab2sele" class="form-label text-right">Tab:</label>
+                <select id="tab2sele" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Tab---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="status" class="form-label text-right">Status:</label>
+                <select id="status" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Status---">
+                    <option value="open">Open</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="close">Close</option>
+                </select>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type="button" class="btn btn-primary mybtn" onclick="init_searchDemand()">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table id="table" class="table table-hover table-striped"></table>
+
+<script src="~/Scripts/Customer/cookie.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/Customer/BasicFnc.js"></script>
+<script src="~/Scripts/Customer/demand.js"></script>
+<script>
+    $(document).ready(function () {
+        select_UserNamebyPower();
+        select_tb1();
+        select_tb2();
+        init_searchDemand();
+    })
+
+
+</script>

@@ -1,0 +1,205 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Deal Demand";
+}
+
+
+
+<div style="margin-top:20px;"></div>
+<table id="table" class="table table-hover table-striped"></table>
+
+<div class="modal fade" id="DemandModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>@ViewBag.Title</b></h5>
+            </div>
+            <div class="modal-body">
+                <form id="sheet" method="post" style="text-align:center">
+                    <div class="sheet-main">
+                        <div class="sheet-item ">
+                            <label class="item-title-inline">From:&nbsp;&nbsp;</label><span id="txt_from" class="item-text"></span>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title-inline">Tab:&nbsp;&nbsp;</label><span id="txt_tab" class="item-text"></span>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title-inline">Content:&nbsp;&nbsp;</label><span id="txt_content" class="item-text"></span>
+                        </div>
+                        @*<div class="sheet-item ">
+                            <label class="item-title" for="to">TO:</label>
+                            <select id="to" class="form-control selectpicker" data-size="6" multiple data-live-search="true" ></select>
+                        </div>*@
+                                        @*<div class="sheet-item ">
+                            <label class="item-title" for="cc">CC:</label>
+                            <select id="cc" class="form-control selectpicker" data-size="6" multiple data-live-search="true"></select>
+                        </div>*@
+                        <div class="sheet-item ">
+                            <label class="item-title" for="chartdate">*Chart Date:</label>
+                            <div class='input-group date form_datetime'>
+                                <input type='text' class="form-control item-input" id='charttime' onchange="checkTimeUsed()" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="sheet-item">
+                            <label class="item-title" for="locationsele">*Session_Duration(min):</label>
+                            <input type="number" class="form-control" placeholder="Please input the estimated duration" id="chartduration"/>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title" for="locationsele">*Location:</label>
+                            <select id="locationsele" class="form-control selectpicker" data-size="6"></select>
+                        </div>
+                        <div class="sheet-item ">
+                            <label class="item-title-inline" for="isSendMail">SendMail: </label>
+                            <input type="checkbox" id="isSendMail" checked="checked" />
+                        </div>
+                    </div>
+                    <button class="btn btn-success" type="button" style="margin-top:20px" onclick="submitArrange()">Arrange</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="CloseDemandModel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>Close Demand</b></h5>
+            </div>
+            <div class="modal-body">
+                <form id="sheet" method="post" style="text-align:center">
+                    <div class="sheet-main">
+                        <div class="sheet-item ">
+                            <label class="item-title" for="content">Remark:</label>
+                            <textarea cols="100" name="content" rows="2" id="remark" class="form-control width-mathc" placeholder="请输入..."></textarea>
+                        </div>
+                    </div>
+                    @*<div class="sheet-main">
+                        <div class="sheet-item ">
+                            <label class="item-title" for="content">Attatchment:</label>
+                            <input type="file"/>
+                        </div>
+                    </div>*@
+                    <button class="btn btn-success" type="button" style="margin-top:20px" onclick="closeDemand()">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script src="~/Scripts/Customer/BasicFnc.js"></script>
+<script src="~/Scripts/Customer/cookie.js"></script>
+<script src="~/Scripts/Customer/select.js"></script>
+<script src="~/Scripts/Customer/demand.js"></script>
+<script>
+    $(document).ready(function () {
+        select_mailandUserName();
+        select_location();
+    });
+
+    $(".form_datetime").datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:00', //时间显示的格式
+        todayBtn: true, //一键选中今天的日期
+        pickerPosition: "bottom-left", //打开选择卡的位置
+        weekStart: 1, //周开始的星期：0-6 星期日-星期六
+        autoclose: true,//选好时间后自动关闭
+        startView: 2,
+        maxView: 4,
+        minView: 0,//显示的最小选项卡：0-4 hour,day,month,year,decade
+        language: 'zh-CN',
+    });
+
+    function Operate(value, row, index) {
+        return ['<a href="#" id="arrange">Arrange</a>&nbsp;|&nbsp;<a href="#" id="close">Close</a> ']
+    }
+
+    window.operateEvents = {
+        "click #arrange": function (e, value, row, index) {
+            demand_byID(row);
+            $("#txt_from").html(row.mailFrom);
+            $("#txt_tab").html(row.senior_tab + ": " + row.tab);
+            $("#txt_content").html(row.content);
+            $("#DemandModel").modal("show");
+        },
+        "click #close": function (e, value, row, index) {
+            demand_byID(row);
+            $("#CloseDemandModel").modal("show");
+        }
+    }
+
+    $("#table").bootstrapTable({
+        toolbar: '#toolbar',
+        cache: false,
+        search: false,
+        type: 'GET',
+        url: '/Demand/QueryEnableDemand',
+        queryParams: {
+            to: getCookie("edoor-EmployeeID"),
+        },
+        dataType: 'json',
+        pagination: true,  //设置为 true 会在表格底部显示分页条。
+        paginationLoop: false, //设置为 true 启用分页条无限循环的功能。
+        pageSize: 20,//每页初始显示的条数
+        pageList: [10, 15, 20],
+        showColumns: false,
+        columns: [{
+            fiele: 'id',
+            title: 'ID',
+            visible: false
+        }, {
+            field: 'mailFrom',
+            title: 'From'
+        }, {
+            field: 'open_time',
+            title: 'Open Time',
+            formatter: function (value, row, index) {
+                return changeDateFormat(value);
+            }
+        },
+        {
+            field: 'senior_tab',
+            title: 'Topic'
+        },     {
+            field: 'tab',
+            title: 'Tab'
+        }, {
+            field: 'content',
+            title: 'Content'
+        }, {
+            field: 'mailTo',
+            title: 'TO'
+        }, {
+            field: 'session_time',
+            title: 'Session Time',
+            formatter: function (value, row, index) {
+                return changeDateFormat(value);
+            }
+        }, {
+            field: 'session_location',
+            title: 'Session Location'
+        }, {
+
+            field: 'Operate',
+            title: 'Operate',
+            events: operateEvents,
+            formatter: Operate
+        }]
+    });
+
+    function changeDateFormat(cellval) {
+        if (cellval != null) {
+            var d = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            return formatDate(d);
+        } else {
+            return cellval;
+        }
+    }
+</script>

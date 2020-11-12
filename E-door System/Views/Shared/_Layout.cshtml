@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - eDoor</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/edoor.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="~/" class="navbar-left"><img src="~/img/logo.png" style="height:50px"/> </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Demand</a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li>@Html.ActionLink("Apply", "DemandApply", "Home")</li>
+                            <li>@Html.ActionLink("Deal", "DemandDeal", "Home")</li>
+                            <li>@Html.ActionLink("Search", "DemandSearch", "Home")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Management</a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li>@Html.ActionLink("User", "UserPage", "Home")</li>
+                            <li>@Html.ActionLink("Department", "Department", "Home")</li>
+                            <li>@Html.ActionLink("Project", "Project", "Home")</li>
+                            <li>@Html.ActionLink("Location", "Location", "Home")</li>
+                            <li>@Html.ActionLink("Tab", "Tab", "Home")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome[@HttpContext.Current.Request.Cookies["edoor-displayname"].Value]</a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li>@Html.ActionLink("Setting", "Setting", "Home")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Sing Out", "LogIn2", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr/>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - E-Door</p>
+        </footer>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

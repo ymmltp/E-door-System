@@ -1,0 +1,221 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage User";
+}
+
+
+<div class="panel-default large-top-margin">
+    <div class="panel-heading">
+        @ViewData["Title"]
+        <a href="ExcelModel/UserModel.xlsx" class="pull-right white-font" title="Download File Model"><i class="fa fa-folder-open"></i> Excel Model</a>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="employeeid" class="form-label text-right">EmployeeID:</label>
+                <input id="employeeid" class="form-control" type="text" />
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="ntid" class="form-label text-right">NTID:</label>
+                <input id="ntid" class="form-control" type="text" onchange="user_entity()" />
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="displayname" class="form-label text-right">UserName:</label>
+                <input id="displayname" class="form-control" type="text" />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="phone" class="form-label text-right">Phome Num:</label>
+                <input id="phone" class="form-control" type="number" />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="email" class="form-label text-right">e-Mail:</label>
+                <input id="email" class="form-control" type="text" />
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="projsele" class="form-label text-right">Project:</label>
+                <select id="projsele" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Project---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="departsele" class="form-label text-right">Department:</label>
+                <select id="departsele" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Department---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="tiersele" class="form-label text-right">Tier:</label>
+                <select id="tiersele" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Tier---"></select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                <label for="powersele" class="form-label text-right">Role:</label>
+                <select id="powersele" class="form-control selectpicker" data-size="6" multiple data-max-options="1" title="---Select Role---"></select>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2"></div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-success mybtn" onclick="add_user()">Add</button>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type="button" class="btn btn-primary mybtn" onclick="user_QuerybyRange()">Search</button>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type="button" class="btn btn-warning mybtn" id="showmodel">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table id="table" class="table table-hover"></table>
+
+@*upload model*@
+<div class="modal fade" id="UploadModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>Upload File</b></h5>
+            </div>
+            <div class="modal-body">
+                <div class="panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-1">
+                                <label for="sheetsele" class="form-label text-right">Sheets:</label>
+                            </div>
+                            <div class="col-lg-7">
+                                <select id="sheetsele" class="form-control selectpicker" title="---Select Sheet---" onchange="ShowUserSheet()"></select>
+                            </div>
+                            <div class="col-lg-2">
+                                <button id="openbtn" type="button" class="btn btn-success" style="margin-bottom:0px;position:relative;overflow:hidden">
+                                    OpenFile
+                                </button>
+                                <input type="file" id="file-input" onchange="handleFiles(this.files)" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="position:absolute;left:0;right:0;top:0;bottom:0;z-index:10;height:100%;width:100%;opacity:0;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm table-bordered table-hover" id="result">
+                                <thead>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>NTID</th>
+                                        <th>EmployeeID</th>
+                                        <th>UserName</th>
+                                        <th>Tier</th>
+                                        <th>Department</th>
+                                        <th>Project</th>
+                                        <th>PhoneNum</th>
+                                        <th>E-Mail</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-upload-table-tr"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="upload" onclick="UploadUser()">Upload</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<script src="~/Scripts/Customer/xlsx.full.min.js"></script>
+<script src="~/Scripts/Customer/select.js"></script>
+<script src="~/Scripts/Customer/add.js"></script>
+<script src="~/Scripts/Customer/excelUpload.js"></script>
+<script>
+    $(document).ready(function () {
+        select_department();
+        select_power();
+        select_tier();
+        select_project();
+    });
+
+    function DeleteButton(value, row, index) {
+        return [
+            '<a href="#" id="delete">Delete</a>'
+        ]
+    }
+
+    window.operateEvents = {
+        "click #delete": function (e, value, row, index) {
+            var flag = confirm("确定删除这个User:" + row.displayname + "吗？");
+            if (flag) {
+                var url = "/User/DeletebyID";
+                $.ajax({
+                    url: url,
+                    data: {
+                        id: row.id
+                    },
+                    type: 'GET',
+                    success: function (data, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                        user_table();
+                    },
+                    fail: function (err, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                })
+            }
+        },
+    }
+
+    $("#table").bootstrapTable({
+        cache: false,
+        url: '/User/Query?ran=' + Math.random(),
+        method: 'GET',
+        dataType: 'json',
+        pagination: true,  //设置为 true 会在表格底部显示分页条。
+        paginationLoop: false, //设置为 true 启用分页条无限循环的功能。
+        pageSize: 20,//每页初始显示的条数
+        pageList: [10, 15, 20],
+        showColumns: true,    
+        columns: [{
+            field: 'id',
+            title: 'ID',
+            visible: false
+        }, {
+            field: 'index',
+            title: 'Index',
+            formatter: function (value, row, index) {
+                return index + 1;
+            }
+        }, {
+            field: 'displayname',
+            title: 'Name'
+        }, {
+            field: 'ntid',
+            title: 'NTID'
+        }, {
+            field: 'employeeNum',
+            title: 'EmployeeID'
+        }, {
+            field: 'tier',
+            title: 'Tier'
+        }, {
+            field: 'department',
+            title: 'Department'
+        }, {
+            field: 'project',
+            title: 'Project'
+        }, {
+            field: 'phoneNum',
+            title: 'PhoneNum'
+        }, {
+            field: 'eMail',
+            title: 'eMail'
+        },{
+            field: 'power',
+            title: 'Role'
+        }, {
+            field: 'option',
+            title: 'Operation',
+            events: operateEvents,
+            formatter: DeleteButton
+        }],
+    });
+
+</script>

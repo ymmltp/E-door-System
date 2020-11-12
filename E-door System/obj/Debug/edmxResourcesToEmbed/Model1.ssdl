@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="e_doorModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="demand_list">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="from" Type="varchar" MaxLength="45" />
+    <Property Name="open_time" Type="datetime" Precision="0" />
+    <Property Name="tab" Type="varchar" MaxLength="45" />
+    <Property Name="content" Type="varchar" MaxLength="255" />
+    <Property Name="status" Type="varchar" MaxLength="45" />
+    <Property Name="to" Type="varchar" MaxLength="45" />
+    <Property Name="cc" Type="varchar" MaxLength="45" />
+    <Property Name="session_time" Type="datetime" Precision="0" />
+    <Property Name="session_location" Type="varchar" MaxLength="45" />
+    <Property Name="close_time" Type="datetime" Precision="0" />
+    <Property Name="remark" Type="varchar" MaxLength="255" />
+    <Property Name="attatchment" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="department" />
+    </Key>
+    <Property Name="department" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="first_type">
+    <Key>
+      <PropertyRef Name="tab_type" />
+    </Key>
+    <Property Name="tab_type" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityType Name="location">
+    <Key>
+      <PropertyRef Name="location" />
+    </Key>
+    <Property Name="location" Type="varchar" MaxLength="45" Nullable="false" />
+  </EntityType>
+  <EntityType Name="project">
+    <Key>
+      <PropertyRef Name="project" />
+    </Key>
+    <Property Name="project" Type="varchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tab_second_type">
+    <Key>
+      <PropertyRef Name="second_type" />
+    </Key>
+    <Property Name="first_type" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="second_type" Type="varchar" MaxLength="45" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="tier">
+    <Key>
+      <PropertyRef Name="tier_level" />
+    </Key>
+    <Property Name="tier_level" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="diaplayname" Type="varchar" MaxLength="45" />
+    <Property Name="ntid" Type="varchar" MaxLength="45" />
+    <Property Name="employeeNum" Type="varchar" MaxLength="45" />
+    <Property Name="tier" Type="varchar" MaxLength="10" />
+    <Property Name="department" Type="varchar" MaxLength="10" />
+    <Property Name="project" Type="varchar" MaxLength="10" />
+    <Property Name="eMail" Type="varchar" MaxLength="45" />
+    <Property Name="password" Type="varchar" MaxLength="45" />
+    <Property Name="power" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityContainer Name="e_doorModelStoreContainer">
+    <EntitySet Name="demand_list" EntityType="Self.demand_list" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="department" EntityType="Self.department" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="first_type" EntityType="Self.first_type" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="location" EntityType="Self.location" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="project" EntityType="Self.project" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="tab_second_type" EntityType="Self.tab_second_type" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="tier" EntityType="Self.tier" Schema="e_door" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="e_door" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

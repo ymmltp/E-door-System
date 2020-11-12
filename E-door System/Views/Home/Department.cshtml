@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Department";
+}
+
+
+<div class="panel-default large-top-margin">
+    <div class="panel-heading">@ViewData["Title"]</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <label for="input-para" class="form-label text-right">Department:</label>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                <input id="input-para" class="form-control" type="text" />
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-success" onclick="add_department()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<table id="table" class="table table-hover"></table>
+
+
+<script src="~/Scripts/bootstrap-table.min.js"></script>
+<script src="~/Scripts/Customer/select.js"></script>
+<script src="~/Scripts/Customer/add.js"></script>
+<script>
+    function DeleteButton(value, row, index) {
+        return [
+            '<button class="btn btn-danger square-btn" type="button" id="deleteBtn"><i class="fa fa-times"></i></button>'
+        ]
+    }
+
+    window.operateEvents = {
+        "click #deleteBtn": function (e, value, row, index) {
+            var flag = confirm("确定删除Department:" + row.department1 +"吗？");
+            if (flag) {
+                var url = "/Department/Delete";
+                $.ajax({
+                    url: url,
+                    data: {
+                        department1: row.department1
+                    },
+                    type: 'GET',
+                    success: function (data, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                        department_table();
+                    },
+                    fail: function (err, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                })
+            }
+        }
+    }
+
+    $("#table").bootstrapTable({
+        cache: false,
+        url: '/Department/Query?ran=' + Math.random(),
+        pagination: true,  //设置为 true 会在表格底部显示分页条。
+        paginationLoop: false, //设置为 true 启用分页条无限循环的功能。
+        pageSize: 20,//每页初始显示的条数
+        pageList: [10, 15, 20],
+        columns: [{
+                field: 'department1',
+                title: 'Department'
+            }, {
+                field: 'option',
+                title: 'Operation',
+                events: operateEvents,
+                formatter: DeleteButton
+            }],
+    });
+
+</script>
