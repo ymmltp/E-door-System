@@ -13,18 +13,26 @@ namespace E_door_System.Controllers
         // GET: Auth
         public JsonResult Auth(user user)
         {
-            string sql = "select * from user where 1 ";
-            if (!string.IsNullOrEmpty(user.ntid)) sql += string.Format(" and ntid='{0}'", user.ntid);
-            if (!string.IsNullOrEmpty(user.employeeNum)) sql += string.Format(" and employeeNum='{0}'", user.employeeNum);
-            if (!string.IsNullOrEmpty(user.password)) sql += string.Format(" and password='{0}'", user.password);
-            List<user> items = db.users.SqlQuery(sql).ToList();
-            if (items.Count > 0)
+            try
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                string sql = "select * from user where 1 ";
+                if (!string.IsNullOrEmpty(user.ntid)) sql += string.Format(" and ntid='{0}'", user.ntid);
+                if (!string.IsNullOrEmpty(user.employeeNum)) sql += string.Format(" and employeeNum='{0}'", user.employeeNum);
+                if (!string.IsNullOrEmpty(user.password)) sql += string.Format(" and password='{0}'", user.password);
+                List<user> items = db.users.SqlQuery(sql).ToList();
+                if (items.Count > 0)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
             }
-            else {
-                return Json(false, JsonRequestBehavior.AllowGet);
+            catch (Exception err) {
+                return Json(err.Message, JsonRequestBehavior.AllowGet);
             }
+           
         }
     }
 }

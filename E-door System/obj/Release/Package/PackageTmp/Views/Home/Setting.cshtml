@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Setting";
+}
+
+
+<div class="row">
+    <div class="col-lg-4 col-md-3 "></div>
+    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <div class="row" style="margin-bottom:20px">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="username" class="pull-right">Name:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="username" type="text" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="ntid" class="pull-right">NTID:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="ntid" type="text" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="sap" class="pull-right">SAP:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="sap" type="text" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="department" class="pull-right">Department:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="department" type="text" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="project" class="pull-right">Project:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="project" type="text" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="email" class="pull-right">E-mail:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="email" type="email" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="phone" class="pull-right">Phone:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="phone" type="number" class="form-control"/>
+            </div>
+        </div>
+        <div class="row"><label></label></div>
+
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="password" class="pull-right">*PassWord:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="password" type="password" class="form-control" placeholder="--请输入新密码--" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <label style="color:#cb3333" id="passinfo"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <label for="secpassword" class="pull-right">*PassWord:</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <input id="secpassword" type="password" class="form-control" placeholder="--请再次输入密码--" />
+            </div>
+        </div>
+
+
+        <div class="row text-center" style="margin-top:25px">
+            <button type="button" class="btn btn-success" onclick="userSetting()">Submit</button>
+        </div>
+
+    </div>
+    <div class="col-lg-4 col-md-3 "></div>
+</div>
+
+<script src="~/Scripts/Customer/cookie.js"></script>
+<script>
+        $(document).ready(function () {
+            $("#ntid").val(getCookie("edoor-NTID"));
+            $("#username").val(getCookie("edoor-displayname"));
+            $("#sap").val(getCookie("edoor-EmployeeID"));
+            $("#project").val(getCookie("edoor-Project"));
+            $("#department").val(getCookie("edoor-Department"));
+            $("#email").val(getCookie("edoor-eMail"));
+            $("#phone").val(getCookie("edoor-PhoneNum"));
+
+            $("#password").focus(function () {
+                $("#passinfo").html("");
+            });
+            $("#secpassword").focus(function () {
+                 $("#passinfo").html("");
+            })
+        });
+
+        function userSetting() {
+            var epID = $("#sap").val();
+            var phone = $("#phone").val();
+            var password1 = $("#password").val();
+            var password2 = $("#secpassword").val();
+            if (password1 == password2 && password1!=="") {
+                var item = {
+                    id: getCookie("edoor-id"),
+                    password: password1,
+                    phoneNum:phone
+                }
+                $.ajax({
+                    url: '/User/ChangePassword',
+                    type: 'POST',
+                    data: item,
+                    success: function (data, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                        setTimeout(function () {
+                            window.location = "/Home/Index";
+                        }, 1000)
+                    },
+                    fail: function (err, status, xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                })
+            }
+            else {
+                $("#passinfo").html("密码不一致，请确认...");
+            }
+        }
+</script>

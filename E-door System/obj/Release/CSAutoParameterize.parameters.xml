@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="eDoor-Web.config Connection String" description="eDoor Connection String used in web.config by the application to access the database." defaultValue="Server=cnwuxg0te01;Database=e_door;Uid=root;Pwd=Jabil12345;Persist Security Info=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\1382919\\source\\repos\\E-door\ System\\E-door\ System\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='eDoor']/@connectionString" />
+  </parameter>
+</parameters>

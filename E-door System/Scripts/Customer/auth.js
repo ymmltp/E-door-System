@@ -85,7 +85,7 @@ var Auth =
             var epnum = document.getElementById(ele[0].id).value;
             var password = document.getElementById(ele[1].id).value;
             $.ajax({
-                url: '/Login/Auth?ran=' + Math.random(),
+                url: '/Login/Auth',
                 type: 'GET',
                 data: {
                     employeeNum: epnum,
@@ -133,7 +133,6 @@ var Auth =
                     else {
                         Auth.vars.passward_error.removeAttribute('hidden');
                         console.log("User doesn't exist...");
-
                     }
                 },
                 fail: function (data, status, xhr) {
